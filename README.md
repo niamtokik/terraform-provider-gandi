@@ -8,6 +8,8 @@ This provider doesn't provide access to the other Gandi API (https://doc.rpc.gan
 
 ## Compiling
 
+These commands will generate a compiled file in `${HOME}/go/bin` called `terraform-provider-gandi`.
+
 ```
 make
 ```
@@ -16,6 +18,46 @@ or
 
 ```
 go build -o terraform-provider-gandi
+```
+
+## Installation
+
+The file previously generated in Compiling section (`${HOME}/go/bin/terraform-provider-gandi`) must be moved/copied in your current terraform directory. Here the steps:
+
+```sh
+# create your directory where all your tf files will be stored
+mkdir terraform_gandi
+cd terraform_gandi
+
+# create terraform plugins directory
+mkdir -p ./terraform.d/plugins/${os}_${arch}/
+
+# copy gandi provider
+cp ${HOME}/go/terraform-provider-gandi ./terraform.d/plugins/${os}_${arch}/
+
+# set your provider
+touch gandi.tf
+
+# init terraform
+terraform init .
+```
+
+where `${os}` is your operating system (e.g. linux, freebsd openbsd) and `${arch}` is your architecture (e.g. x86, amd64). If your plugin was correctly installed, the last command should output something like:
+
+```txt
+Initializing the backend...
+                                                        
+Initializing provider plugins...  
+                                                        
+Terraform has been successfully initialized!                                                                    
+                                                        
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.                                                                                                
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
 ```
 
 ## Example
